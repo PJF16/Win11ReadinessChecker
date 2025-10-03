@@ -57,8 +57,7 @@ Lightweight, domain-ready PowerShell solution to assess Windows 11 hardware read
 
 ---
 
-## ⚡ Requirements
-- Windows 10/11  
+## ⚡ Requirements 
 - PowerShell 5+  
 - Domain environment (for GPO + machine-account writes)  
 - Network share reachable from clients  
