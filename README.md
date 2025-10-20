@@ -2,7 +2,6 @@
 
 Lightweight, domain-ready PowerShell solution to assess Windows 11 hardware readiness across your fleet and collect results centrally — without agents or extra dependencies.  
 
----
 
 ## ✨ Features
 - 🛑 Runs **once per device** (marker file in `C:\ProgramData\Win11Check\`)  
@@ -17,7 +16,6 @@ Lightweight, domain-ready PowerShell solution to assess Windows 11 hardware read
   - 🔒 **Secure Boot** (cmdlet with **Registry fallback**)  
   - ⭐ Special case: **Intel i7-7820HQ** allowed only on certain OEM devices (Surface Studio 2, Precision 5520)  
 
----
 
 ## 📂 Output & Collection
 - Writes compact JSON per run: `HOSTNAME-YYYYMMDDTHHMMSS.json`  
@@ -25,7 +23,6 @@ Lightweight, domain-ready PowerShell solution to assess Windows 11 hardware read
 - If the share is unavailable, logs are queued in  
   `C:\ProgramData\Win11Check\Queue` and **auto-flushed** next run ✅  
 
----
 
 ## 🛠️ Deployment Options
 - **GPO Startup Script** (via `.bat` wrapper or ExecutionPolicy GPO)  
@@ -38,12 +35,10 @@ Lightweight, domain-ready PowerShell solution to assess Windows 11 hardware read
     ```
   - 🌐 Option: “Run only if network is available”  
 
----
 
 ## 🔑 Permissions
 - Grant **Domain Computers** (or a dedicated group) 🖧 **Modify** rights on the target share **and** NTFS folder so machine accounts can write logs.  
 
----
 
 ## 📊 Result Semantics
 - `returnCode`:  
@@ -55,21 +50,18 @@ Lightweight, domain-ready PowerShell solution to assess Windows 11 hardware read
 - `logging`: human-readable per-check trail  
 - `returnReason`: comma-separated failed checks  
 
----
 
 ## ⚡ Requirements 
 - PowerShell 5+  
 - Domain environment (for GPO + machine-account writes)  
 - Network share reachable from clients  
 
----
 
 ## ❓ Why this project?
 - 🕵️ **No agents, no SCCM/Intune required**  
 - 🛡️ Robust in real-world AD: handles early-boot timing, 64-bit host, and Secure Boot quirks  
 - 🔂 Safe to run repeatedly but designed to execute **exactly once per device** via a marker  
 
----
 
 # 📈 Reporting Script (CSV + HTML dashboard)
 
