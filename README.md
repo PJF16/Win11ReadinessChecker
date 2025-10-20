@@ -68,3 +68,61 @@ Lightweight, domain-ready PowerShell solution to assess Windows 11 hardware read
 - 🕵️ **No agents, no SCCM/Intune required**  
 - 🛡️ Robust in real-world AD: handles early-boot timing, 64-bit host, and Secure Boot quirks  
 - 🔂 Safe to run repeatedly but designed to execute **exactly once per device** via a marker  
+
+---
+
+# 📈 Reporting Script (CSV + HTML dashboard)
+
+Once JSON logs are landing in your share, use this script to generate:  
+- `Win11Check_Report.csv` (full detail per device)  
+- `Win11Check_Report.html` (summary dashboard with SVG charts)
+
+### Usage
+```powershell
+# Example
+.\report.ps1 -LogPath \\server\share\win11check -OutDir C:\Reports\Win11
+```
+
+- **`-LogPath`**: Folder containing the collected JSON logs  
+- **`-OutDir`**: Output directory for CSV + HTML (created if missing)
+
+### What it does
+- Parses each `*.json` file (expects `logging`, `returnCode`, `returnResult`, `returnReason`)  
+- Extracts PASS/FAIL/UNDETERMINED for: **Storage**, **Memory**, **TPM**, **SecureBoot**, **Processor**  
+- Pulls helpful values from the log stream (disk size, memory, TPM version, CPU details)  
+- Builds an **HTML dashboard** with:
+  - Summary cards (counts of CAPABLE / NOT CAPABLE / UNDETERMINED)
+  - Bar chart for overall result distribution  
+  - Bar charts for PASS/FAIL/UNDETERMINED per criterion  
+  - Top failure reasons (top 10)  
+  - Preview table (first 100 rows) with hardware signals  
+
+---
+
+## 📜 `report.ps1`
+The full script is included in the repository as `report.ps1`.  
+Run it manually or schedule it to generate regular readiness reports.
+
+---
+
+## 🧪 Verifying the pipeline
+
+1. **Deploy** the collector via GPO and confirm JSON files appear in your share.  
+2. **Run** the report locally (or as a scheduled task on an admin box):
+   ```powershell
+   .\report.ps1 -LogPath \\server\share\win11check -OutDir C:\Reports\Win11
+   ```
+3. **Open** `Win11Check_Report.html` for the overview; use `Win11Check_Report.csv` for Excel/BI.
+
+---
+
+## 🧰 Troubleshooting
+
+- **“No JSON logs found”**  
+  Check share path, permissions for machine accounts, and that the collector actually ran.
+
+- **Charts look empty**  
+  If all results are the same (e.g., all CAPABLE), the other charts will legitimately show zeros.
+
+- **Filename parsing**  
+  The report expects `HOST-YYYYMMDDTHHMMSS.json`. If missing, it falls back to the file’s creation time.
